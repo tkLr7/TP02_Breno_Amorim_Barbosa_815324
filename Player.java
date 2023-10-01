@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -153,20 +152,22 @@ class Player
     
 public static void main (String[] args)
 {
-    Player[] jogador = new Player[3922];
+    Player[] jogador = new Player[3923];
     Scanner scanner = new Scanner(System.in);
+ 
     try {
-        BufferedReader arq = new BufferedReader(new FileReader("/tmp/players.csv"));
-        String info;
+        BufferedReader buff = new BufferedReader(new FileReader("players.csv"));
+        //Scanner arq = new Scanner("players.csv");
+        String info = buff.readLine();
         int pos = 0; 
-        while ((info = arq.readLine()) != null) {
+        while ((info = buff.readLine()) != null) {
             jogador[pos] = new Player(); 
             jogador[pos].ler(info); 
             pos++; 
         }
-        arq.close();
+        buff.close();
     } catch (Exception e) {
-        System.out.println("Erro ao abrir arquivo");
+        System.out.println(e);
     }
     
     String id = scanner.nextLine();
@@ -178,6 +179,6 @@ public static void main (String[] args)
         }
         id = scanner.nextLine();
     }
-    
+    scanner.close();
 }
 }
