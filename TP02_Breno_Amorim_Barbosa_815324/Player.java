@@ -1,35 +1,35 @@
- class Player implements Cloneable
+ class Player 
 {
     private int id;
     private String nome;
     private int altura;
     private int peso;
     private String universidade;
-    private int ano;
-    private String cidade;
-    private String estado;
+    private int anoNascimento;
+    private String cidadeNascimento;
+    private String estadoNascimento;
 
     Player()
     {
         this.id = -1;
         this.altura = -1;
         this.peso = -1;
-        this.ano = -1;
+        this.anoNascimento = -1;
         this.nome = null;
         this.universidade = null;
-        this.cidade = null;
-        this.estado = null;
+        this.cidadeNascimento = null;
+        this.estadoNascimento = null;
     }
-    Player (int a, String w, int b, int c, String x, int d, String y, String z)
+    Player (int id, String nome, int altura, int peso, String univerdade, int anoNascimento, String cidadeNascimento, String estadoNascimento)
     {
-        this.id = a;
-        this.altura = b;
-        this.peso = c;
-        this.ano = d;
-        this.nome = w;
-        this.universidade = x;
-        this.cidade = y;
-        this.estado = z;
+        this.id = id;
+        this.nome = nome;
+        this.altura = altura;
+        this.peso = peso;
+        this.universidade = univerdade;
+        this.anoNascimento = anoNascimento;
+        this.cidadeNascimento = cidadeNascimento;
+        this.estadoNascimento = estadoNascimento;
     }
 
     public void setId(int id) {
@@ -73,33 +73,55 @@
     }
     
     public void setAno(int ano) {
-        this.ano = ano;
+        this.anoNascimento = ano;
     }
     
     public int getAno() {
-        return ano;
+        return anoNascimento;
     }
 
     public void setCidade(String cidade) {
-        this.cidade = cidade;
+        this.cidadeNascimento = cidade;
     }
 
     public String getCidade() {
-        return cidade;
+        return cidadeNascimento;
     }
 
     public void setEstado(String estado) {
-        this.estado = estado;
+        this.estadoNascimento = estado;
     }
 
     public String getEstado() {
-        return estado;
+        return estadoNascimento;
     }
     
-    public Object clonarPlayer(Player p) throws CloneNotSupportedException
+    @Override
+    protected Player clone() throws CloneNotSupportedException
     {
-        Player clonez = (Player) p.clone();
-
-        return clonez;
+        return (Player) super.clone();
     }
+
+    public void imprimir()
+    {
+        MyIO.print(id+" ## "+nome+" ## "+altura+" ## "+peso+" ## "+universidade+" ## "+cidadeNascimento+ " ## "+estadoNascimento);
+    }
+
+    public void ler()
+    {
+        this.id = MyIO.readInt();
+
+        this.nome = MyIO.readLine();
+
+        this.altura = MyIO.readInt();
+
+        this.peso = MyIO.readInt();
+
+        this.universidade = MyIO.readLine();
+
+        this.cidadeNascimento = MyIO.readLine();
+
+        this.estadoNascimento = MyIO.readLine();
+    }
+
 }
