@@ -1,6 +1,3 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -40,67 +37,83 @@ class Player
     }
     List<Player> players = new ArrayList<>();
 
-    public void setId(int id) {
+    public void setId(int id)
+    {
         this.id = id;
     }
     
-    public int getId() {
+    public int getId() 
+    {
         return id;
     }
     
-    public void setNome(String nome) {
+    public void setNome(String nome) 
+    {
         this.nome = nome;
     }
     
-    public String getNome() {
+    public String getNome() 
+    {
         return nome;
     }
     
-    public void setAltura(int altura) {
+    public void setAltura(int altura) 
+    {
         this.altura = altura;
     }
     
-    public int getAltura() {
+    public int getAltura() 
+    {
         return altura;
     }
     
-    public void setPeso(int peso) {
+    public void setPeso(int peso)
+     {
         this.peso = peso;
     }
     
-    public int getPeso() {
+    public int getPeso() 
+    {
         return peso;
     }
     
-    public void setUniversidade(String universidade) {
+    public void setUniversidade(String universidade) 
+    {
         this.universidade = universidade;
     }
     
-    public String getUniversidade() {
+    public String getUniversidade() 
+    {
         return universidade;
     }
     
-    public void setAno(int ano) {
+    public void setAno(int ano) 
+    {
         this.anoNascimento = ano;
     }
     
-    public int getAno() {
+    public int getAno() 
+    {
         return anoNascimento;
     }
 
-    public void setCidade(String cidade) {
+    public void setCidade(String cidade) 
+    {
         this.cidadeNascimento = cidade;
     }
 
-    public String getCidade() {
+    public String getCidade() 
+    {
         return cidadeNascimento;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(String estado) 
+    {
         this.estadoNascimento = estado;
     }
 
-    public String getEstado() {
+    public String getEstado() 
+    {
         return estadoNascimento;
     }
     
@@ -110,10 +123,11 @@ class Player
         return (Player) super.clone();
     }
 
-    public void ler(String linha){
+    public void ler(String linha){              
         int indexVirgulas[] = new int[7];
         int contVirgulas = 0;
-        for(int i=0; i<linha.length(); i++){
+        for(int i=0; i<linha.length(); i++)
+        {
             if(linha.charAt(i)==','){
                 indexVirgulas[contVirgulas]=i;
                 contVirgulas++;
@@ -124,29 +138,35 @@ class Player
             altura = Integer.parseInt(linha.substring(indexVirgulas[1]+1, indexVirgulas[2]));
             peso = Integer.parseInt(linha.substring(indexVirgulas[2]+1, indexVirgulas[3]));
         
-        if((indexVirgulas[4]-indexVirgulas[3]+1) == 2){
+        if((indexVirgulas[4]-indexVirgulas[3]+1) == 2)
+        {
             universidade = "nao informado";
-        } else{
+        } else
+        {
             universidade = linha.substring(indexVirgulas[3]+1, indexVirgulas[4]);
         }
         
             anoNascimento = Integer.parseInt(linha.substring(indexVirgulas[4]+1, indexVirgulas[5])); 
         
-        if(indexVirgulas[6]-indexVirgulas[5]+1 == 2){
+        if(indexVirgulas[6]-indexVirgulas[5]+1 == 2)
+        {
             cidadeNascimento = "nao informado";
-        } else{
+        } else
+        {
             cidadeNascimento = linha.substring(indexVirgulas[5]+1, indexVirgulas[6]);
         }
         
-        if(linha.length()-indexVirgulas[6]+1 == 2){
+        if(linha.length()-indexVirgulas[6]+1 == 2)
+        {
             estadoNascimento = "nao informado";
-        } else{
+        } else
+        {
             estadoNascimento = linha.substring(indexVirgulas[6]+1, linha.length());
         }
     }
     public void imprimir()
     {
-        MyIO.print("["+id+" ## "+nome+" ## "+altura+" ## "+peso+" ## "+anoNascimento+" ## "+universidade+" ## "+cidadeNascimento+" ## "+estadoNascimento+"]");
+        MyIO.print("["+id+" ## "+nome+" ## "+altura+" ## "+peso+" ## "+anoNascimento+" ## "+universidade+" ## "+cidadeNascimento+" ## "+estadoNascimento+"]\n");
 
     }
     
@@ -156,29 +176,40 @@ public static void main (String[] args)
     Scanner scanner = new Scanner(System.in);
  
     try {
-        BufferedReader buff = new BufferedReader(new FileReader("players.csv"));
-        //Scanner arq = new Scanner("players.csv");
-        String info = buff.readLine();
+        Arq.openRead("TP02_Breno_Amorim_Barbosa_815324\\players.csv");
+
+        String info = "";
+        Arq.readLine();
         int pos = 0; 
-        while ((info = buff.readLine()) != null) {
+        while ((info = Arq.readLine()) != null) 
+        {
+          if(info.length()>3)
+          {  
             jogador[pos] = new Player(); 
             jogador[pos].ler(info); 
-            pos++; 
+            pos++;
+          } 
         }
-        buff.close();
+        Arq.close();
     } catch (Exception e) {
         System.out.println(e);
     }
     
+    
     String id = scanner.nextLine();
-    while (!id.equals("FIM")) {
-        for (int i = 0; i < jogador.length; i++) {
-            if (jogador[i] != null && jogador[i].getId() == Integer.parseInt(id)) {
+    while (!id.equals("FIM"))
+    {
+        for (int i = 0; i < jogador.length; i++) 
+        {
+            if (jogador[i] != null && jogador[i].getId() == Integer.parseInt(id)) 
+            {
                 jogador[i].imprimir();
             }
         }
         id = scanner.nextLine();
     }
-    scanner.close();
+      scanner.close();  
+    
+    }
 }
-}
+
