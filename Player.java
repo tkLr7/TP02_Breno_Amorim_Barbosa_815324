@@ -176,7 +176,7 @@ public static void main (String[] args)
     Scanner scanner = new Scanner(System.in);
  
     try {
-        Arq.openRead("tmp/players.csv");
+        Arq.openRead("/tmp/players.csv");
 
         String info = "";
         Arq.readLine();

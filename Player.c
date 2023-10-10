@@ -177,11 +177,14 @@ int ler(int idDesejado) {
 
 int main() {
     char idDesejado[] = ""; //ID que você deseja encontrar
-    while (idDesejado!="FIM")
+    while (true) 
     {
-    scanf("%s", &idDesejado);
-    int numID = atoi(idDesejado);
-    int resultado = ler(numID);
+        scanf("%s", idDesejado);
+        if (strcmp(idDesejado, "FIM") == 0) {
+            break; // Encerra o programa se 'FIM' for digitado
+        }
+        int numID = atoi(idDesejado);
+        int resultado = ler(numID);
     }
 
     return 0;
