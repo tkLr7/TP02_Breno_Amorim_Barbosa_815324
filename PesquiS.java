@@ -6,15 +6,8 @@ public class PesquiS
     ArrayList<Integer> IDs = new ArrayList<>();
     ArrayList<String> NOMES = new ArrayList<>();
     
-    public void ler(int id)
+    public void ler(int id, String linha)
     {           
-        Arq.openRead("/tmp/players.csv");
-
-        String linha = "";
-        Arq.readLine();
-
-        while ((linha = Arq.readLine()) != null) 
-        {
             int indexVirgulas[] = new int[7];
             int contVirgulas = 0;
             for(int i=0; i<linha.length(); i++)
@@ -29,7 +22,6 @@ public class PesquiS
                 
                 IDs.add(id);
                 NOMES.add(nome);
-        }
     }
     public boolean comparar(String entrada)
     {
@@ -45,18 +37,28 @@ public class PesquiS
     
     public static void main(String[] args) throws IOException
     {   
+
         PesquiS pesquisa = new PesquiS();
         String ids = "";
-        ids = MyIO.readString();
+        String linha =  "";
+        ids = MyIO.readLine();
         
+        Arq.openRead("players.csv");
+        Arq.readLine();
+
         while (!ids.equals("FIM")) 
         {
+            while (Arq.hasNext()) 
+            {
+            linha = Arq.readLine();
             int lerID = Integer.parseInt(ids);
-            pesquisa.ler(lerID);
+            pesquisa.ler(lerID, linha);
+            }
+
         }
         
         String entrada = "";
-        entrada = MyIO.readString();
+        entrada = MyIO.readLine();
         while (!entrada.equals("FIM")) 
         {
             boolean teste = pesquisa.comparar(entrada);
@@ -81,5 +83,6 @@ public class PesquiS
         } catch (IOException e) {
             e.printStackTrace();
         } 
+        Arq.close();
     }
 }

@@ -9,8 +9,8 @@ struct Player {
     char nome[MAX];
     int altura;
     int peso;
-    char universidade[MAX];
     int anoNascimento;
+    char universidade[MAX];
     char cidadeNascimento[MAX];
     char estadoNascimento[MAX];
 };
@@ -47,6 +47,14 @@ int getPeso(struct Player *player) {
     return player->peso;
 }
 
+void setAno(struct Player *player, int newano) {
+    player->anoNascimento = newano;
+}
+
+int getAno(struct Player *player) {
+    return player->anoNascimento;
+}
+
 void setUniversidade(struct Player *player, const char *newuniversidade) {
     if (strcmp(newuniversidade, "") != 0) {
         strcpy(player->universidade, newuniversidade);
@@ -57,14 +65,6 @@ void setUniversidade(struct Player *player, const char *newuniversidade) {
 
 const char *getUniversidade(struct Player *player) {
     return player->universidade;
-}
-
-void setAno(struct Player *player, int newano) {
-    player->anoNascimento = newano;
-}
-
-int getAno(struct Player *player) {
-    return player->anoNascimento;
 }
 
 void setCidade(struct Player *player, const char *newcidade) {
@@ -96,20 +96,20 @@ void clone(struct Player *player, struct Player *newplayer) {
     strcpy(player->nome, newplayer->nome);
     player->altura = newplayer->altura;
     player->peso = newplayer->peso;
-    strcpy(player->universidade, newplayer->universidade);
     player->anoNascimento = newplayer->anoNascimento;
+    strcpy(player->universidade, newplayer->universidade);
     strcpy(player->cidadeNascimento, newplayer->cidadeNascimento);
     strcpy(player->estadoNascimento, newplayer->estadoNascimento);
 }
 
 void print(struct Player *player) {
-    printf("[%d ## %s ## %d ## %d ## %s ## %d ## %s ## %s]\n",
-           player->id, player->nome, player->altura, player->peso, player->universidade,
-           player->anoNascimento, player->cidadeNascimento, player->estadoNascimento);
+    printf("[%d ## %s ## %d ## %d ## %d ## %s ## %s ## %s]",
+           player->id, player->nome, player->altura, player->peso, player->anoNascimento, 
+           player->universidade, player->cidadeNascimento, player->estadoNascimento);
 }
 
 int ler(int idDesejado) {
-    FILE *arquivo = fopen("tmp/players.csv", "r");
+    FILE *arquivo = fopen("/tmp/players.csv", "r");
     if (arquivo == NULL) {
         printf("Não foi possível abrir o arquivo.\n");
         return 1; // Retorna código de erro
@@ -122,12 +122,13 @@ int ler(int idDesejado) {
     // Loop para ler o arquivo linha por linha
     while (fgets(linha, sizeof(linha), arquivo) != NULL) {
         struct Player jogador;
-        int camposLidos = sscanf(linha, "%d, %99[^,], %d, %d, %99[^,] , %d, %99[^,], %99[^,]",
-               &jogador.id, jogador.nome, &jogador.altura, &jogador.peso,
-               jogador.universidade, &jogador.anoNascimento,
-               jogador.cidadeNascimento, jogador.estadoNascimento);
-         if (camposLidos < 8) {
-        // Menos de 6 campos foram lidos na linha, preencha os campos ausentes com "nao informado"
+        int camposLidos = sscanf(linha, "%d,%99[^,],%d,%d,%99[^,],%d,%99[^,],%99[^\n]",
+           &jogador.id, jogador.nome, &jogador.altura, &jogador.peso,
+           jogador.universidade, &jogador.anoNascimento,
+           jogador.cidadeNascimento, jogador.estadoNascimento);
+
+        if (camposLidos < 8)
+        {
         if (camposLidos < 1) {
             jogador.id = -1; // Valor inválido para ID
         }
@@ -141,22 +142,18 @@ int ler(int idDesejado) {
             jogador.peso = -1; // Valor inválido para peso
         }
         if (camposLidos < 5) {
-            strcpy(jogador.universidade, "nao informado");
+            strcpy(jogador.universidade, "nao informado"); 
         }
         if (camposLidos < 6) {
             jogador.anoNascimento = -1; // Valor inválido para ano de nascimento
         }
-        if (camposLidos < 7)
-        {
+        if (camposLidos < 7) {
             strcpy(jogador.cidadeNascimento, "nao informado");
         }
-        if (camposLidos < 8)
-        {
+        if (camposLidos < 8) {
             strcpy(jogador.estadoNascimento, "nao informado");
         }
-        
-    }
-
+        }
         if (jogador.id == idDesejado) {
             jogadorEncontrado = jogador;
             jogadorEncontradoFlag = 1;
@@ -168,6 +165,7 @@ int ler(int idDesejado) {
 
     if (jogadorEncontradoFlag) {
         print(&jogadorEncontrado);
+        printf("\n");
         return 0; // Retorna sucesso
     } else {
         printf("Jogador com ID %d não encontrado.\n", idDesejado);
@@ -175,8 +173,9 @@ int ler(int idDesejado) {
     }
 }
 
+
 int main() {
-    char idDesejado[] = ""; //ID que você deseja encontrar
+    char idDesejado[MAX] = ""; //ID que você deseja encontrar
     while (true) 
     {
         scanf("%s", idDesejado);

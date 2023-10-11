@@ -1,6 +1,7 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
+
 
 class Player 
 {
@@ -170,33 +171,32 @@ class Player
 
     }
     
-public static void main (String[] args)
+public static void main (String[] args) throws IOException
 {
     Player[] jogador = new Player[3923];
-    Scanner scanner = new Scanner(System.in);
  
-    try {
         Arq.openRead("/tmp/players.csv");
 
         String info = "";
         Arq.readLine();
         int pos = 0; 
-        while ((info = Arq.readLine()) != null) 
+        while (Arq.hasNext() && pos < 3921 ) 
         {
-          if(info.length()>3)
-          {  
+            info = Arq.readLine();
             jogador[pos] = new Player(); 
             jogador[pos].ler(info); 
             pos++;
-          } 
+        }
+        if (pos == 3921) 
+        {  
+            pos++;
+            jogador[pos] = new Player(); 
+            jogador[pos].ler(info); 
         }
         Arq.close();
-    } catch (Exception e) {
-        System.out.println(e);
-    }
+
     
-    
-    String id = scanner.nextLine();
+    String id = MyIO.readLine();
     while (!id.equals("FIM"))
     {
         for (int i = 0; i < jogador.length; i++) 
@@ -206,10 +206,8 @@ public static void main (String[] args)
                 jogador[i].imprimir();
             }
         }
-        id = scanner.nextLine();
+        id = MyIO.readLine();
     }
-      scanner.close();  
-    
-    }
+}
 }
 
