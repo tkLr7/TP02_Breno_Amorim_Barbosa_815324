@@ -1,7 +1,4 @@
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 
 class Player 
 {
@@ -36,7 +33,7 @@ class Player
         this.cidadeNascimento = cidadeNascimento;
         this.estadoNascimento = estadoNascimento;
     }
-    List<Player> players = new ArrayList<>();
+    //List<Player> players = new ArrayList<>();
 
     public void setId(int id)
     {
