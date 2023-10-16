@@ -165,7 +165,6 @@ class Player
     public void imprimir()
     {
         MyIO.print("["+id+" ## "+nome+" ## "+altura+" ## "+peso+" ## "+anoNascimento+" ## "+universidade+" ## "+cidadeNascimento+" ## "+estadoNascimento+"]\n");
-
     }
     
 public static void main (String[] args) throws IOException
