@@ -109,7 +109,7 @@ void print(struct Player *player) {
 }
 
 int ler(int idDesejado) {
-    FILE *arquivo = fopen("/tmp/players.csv", "r");
+    FILE *arquivo = fopen("players.csv", "r");
     if (arquivo == NULL) {
         printf("Não foi possível abrir o arquivo.\n");
         return 1; // Retorna código de erro
